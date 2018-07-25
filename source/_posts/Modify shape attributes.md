@@ -1,7 +1,7 @@
 ---
 title: Modify shape attributes in code
+categories: Android
 ---
-#Modify shape attributes in code
 ```
 ((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))
     .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),
