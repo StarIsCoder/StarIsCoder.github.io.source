@@ -1,5 +1,6 @@
 ---
 title: Kotlin-扩展函数/属性/中缀调用
+categories: Kotlin
 ---
 ## Kotlin - 扩展函数
 扩展函数：*它是一个类的成员函数，不过是定义在类的外面。*
