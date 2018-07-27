@@ -1,10 +1,7 @@
-
-
-
 ---
 title: Java-Container
-date: 2018/7/26 10:58:00
 categories: Java
+date: 2018/7/26 10:58:00
 ---
 ### Basic Concept
 Container is for storing objects. Container has two types.
