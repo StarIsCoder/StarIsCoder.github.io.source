@@ -1,6 +1,6 @@
 ---
 title: C++ Pointer Note
-date: 2018-08-07 17:45:00
+date: 2018-08-07
 categories: C++
 ---
 
