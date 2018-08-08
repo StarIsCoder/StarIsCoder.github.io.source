@@ -1,5 +1,6 @@
 ---
 title: Kotlin-扩展函数/属性/中缀调用
+date: 2018/07/28
 categories: Kotlin
 ---
 ## Kotlin - 扩展函数

@@ -1,5 +1,6 @@
 ---
 title: Modify shape attributes in code
+date: 2018/7/27
 categories: Android
 ---
 ```
