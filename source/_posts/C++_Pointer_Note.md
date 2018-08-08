@@ -4,9 +4,9 @@ date: 2018/8/7
 categories: C++
 ---
 
-# Pointer
-## Basic Concept
-Pointer is also a variable. But it stores the address of some value, not the value itself. Here is demo:
+## 指针
+### 基本概念
+指针也是一种变量，特殊之处在于它存储的是变量的地址，如下：
 ```c++
 int main(int argc, const char * argv[]) {
     int i = 6;
@@ -16,27 +16,25 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 ```
-The operator * is called indirect value or dereferencing.
+操作符*被叫做间接值或者解除应用
 
-_**Warning: Before using operator * to the pointer, The pointer must be initialized to a certain and approiate address.**_
+_**Warning: 一定要在对指针使用*之前，将指针初始化为一个确定的、适当的地址**_
 
-## Operator new 
-In C, we could use malloc to allocate memory.But in c++, we use operator new.
-
-There ara some general format to allocate memory by using operator new.
-
+### 运算符new 
+在c中，使用malloc来分配内存，在c++中则使用new关键字。
+为一个数据对象获得并制定分配内存的通用格式：
 _typeName * pointer_name = new typeName;_
 
-Once we don't need this pointer,we should delete it or will cause memory leak. **delete** and **new** should be paired.
+一旦我们不需要该指针，应该使用delete关键字将该指针释放，new和delete必须成对出现，否则会发生memory leak。
 ```c++
 int *ps = new int;
 ...
 delete ps;
 ```
-It only release the memory pointed by `ps`, won't delete `ps` it self. So you still can allocate another memeroy to `ps`. 
+这将释放ps指针所指向的内存，但不会删除ps本身，也就是说可以继续将ps指向其他地址。
 
-## Dynamic Array
-Still use operator new to create dynamic array, and it returns an address of the first element. if we want to get an address of the second element,the pointer array shoule plus one.Here is the demo:
+### 动态数组
+使用new关键字来创建动态数组，并且返回的是该数组第一个元素的地址，如果想要获得第二个元素的地址，则需要将该指针加1，如下：
 ```c++
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -55,5 +53,25 @@ Result:
 ```
 1
 3
-Program ended with exit code: 0
+```
+### 动态结构
+结构体同样可以使用new关键字。不同的是无法使用句点运算符，取而代之的是->运算符，如下：
+```c++
+struct things {
+    int price;
+    int sum;
+};
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    things t = {3,18};
+    things * tpt = &t;
+    //things * tpt = new things;
+    cout << tpt->price;
+    cout << endl;
+    return 0;
+}
+```
+Result:
+```
+3
 ```
