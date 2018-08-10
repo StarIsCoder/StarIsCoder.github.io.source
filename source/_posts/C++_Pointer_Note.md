@@ -75,3 +75,22 @@ Result:
 ```
 3
 ```
+### 指针与字符串
+一般来说如果给cout提供一个指针的话，他将打印地址，但是如果指针的类型为char *，那么cout的指针其实指向的是char*的第一个字符的地址，并且会依次往后直到结束符。如下：
+```c++
+int main(int argc, const char * argv[]) {
+    char * c = "dog";
+    cout << "c :" << c;
+    cout<< endl;
+    cout <<"*c :" << *c;
+    cout << endl;
+    cout <<"第一个字符的地址 ：" << (int*)c;
+    cout << endl;
+    return 0;
+}
+```
+```
+c :dog
+*c :d
+第一个字符的地址 ：0x100001edc
+```
