@@ -1,6 +1,6 @@
 ---
 title: Kotlin Singleton
-date: 2018/8/7
+date: 2018/8/10
 categories: Kotlin
 ---
 ## Object
