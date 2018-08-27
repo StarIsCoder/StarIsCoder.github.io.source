@@ -1,13 +1,13 @@
 ---
-title: Java-Container
-date: 
+title: Java_Container
+date: 2018/8/5
 categories: Java
 ---
-### Basic Concept
+## Basic Concept
 容器是用来存储对象的，通常有两种
  - *Collection: 一个独立的序列，例如List，Set等*
  - *Map:一种键-值对.* 
-### List、Set、Map的区别
+## List、Set、Map的区别
 Now check the different result on the demo.
 ```java
 public class PrintingContainers {  
@@ -49,7 +49,7 @@ Result :
 {cat=Jerry, rat=Tom}
 {rat=Tom, cat=Jerry}
 ```
-### List
+## List
  - ArrayList: 适合查询，不适合插入和删除元素。
  - LinkedList : 按照添加的顺序存储元素，常用于频繁的插入和删除元素。
 
@@ -138,7 +138,7 @@ class SListIterator<E> {
     }  
 }
 ```
-### Set
+## Set
  - HashSet: 获取元素最快的一种
  - TreeSet: 降序的方式存储元素
  - LinkedHashSet : 根据添加的顺序存储元素
@@ -190,14 +190,14 @@ class MySortedSet<E> extends LinkedList<E> {
   }  
 }
 ```
-### Map
+## Map
  - HashMap: 最快的找到元素的方式
  - TreeMap:降序方式存储，且是唯一带有submap方法的Map，可以返回一个子树
  - LinkerHashMap: 按照添加的顺序存储
 
 
 
-### Something about Array.asList
+## Something about Array.asList
  ```java
 List<Integer> list = Arrays.asList(1,2,3);  
 list.add(4);
@@ -209,7 +209,7 @@ public static <T> List<T> asList(T... a) {
     return new ArrayList<>(a);  
 }
 ```
-### 散列与散列码
+## 散列与散列码
 由于线性搜索的速度相当慢，因此在HashMap中采用了散列码来取代线性搜索。它是一个代表对象的int值。hashCode()属于Object中的方法，因此适用于所有的java对象。HashMap就是通过hashCode来进行查询的。下面是将Groundhog和Prediction联系起来的demo：
 ```java
 public class Prediction {
