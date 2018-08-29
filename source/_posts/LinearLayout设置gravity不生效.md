@@ -1,7 +1,7 @@
 ---
 title: LinearLayout设置gravity不生效
 date: 2018/8/29
-categories: Android
+categories: Android
 ---
 最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。
 ```kotlin
