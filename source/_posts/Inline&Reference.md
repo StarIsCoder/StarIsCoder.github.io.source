@@ -100,3 +100,33 @@ void test (int i)
 Result:2
 ```
 而关于const也可以用于重载函数，不过只有在修饰的参数是引用或者指针的时候才可以。
+
+## 函数模版
+简单来说就是使用泛型来定义函数，编译器会按照模版创建对应的函数，例如有个函数的作用是交换传入的两个参数，那么不管传入是int还是double都可以使用同一个函数模版。
+```c++
+template <typename T>
+void Swap(T &a,T &b);
+using namespace std;
+
+int main(int argc, const char * argv[]) {
+    int i = 10;
+    int j = 30;
+    Swap(i,j);
+    cout << i << endl;
+    cout << j << endl;
+    double d1 = 2.2;
+    double d2 = 4.4;
+    Swap(d1, d2);
+    cout << d1 << endl;
+    cout << d2 << endl;
+    return 0;
+}
+template <typename T>
+void Swap(T &a,T &b) {
+    T temp;
+    temp = a;
+    a = b;
+    b = temp;
+}
+```
+
