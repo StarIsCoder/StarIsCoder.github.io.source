@@ -8,7 +8,7 @@ categories: Android
 * onLayout(boolean changed, int left, int top, int right, int bottom)
 * onDraw(Canvas canvas)
 
-# onMeasure
+## onMeasure
 onMeasure方法是在view的measure方法中调用的。主要是控制控件的尺寸。
 ```java
 public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -84,7 +84,7 @@ public static int getSize(int measureSpec) {
 ```
 **因此如果复写onMeasure方法，能改动的变量也只有重新设置mMeasuredHeight和mMeasuredWidth。也就是调用setMeasuredDimension这个方法，将我们需要的height和width传进去即可。**
 
-# onLayout
+## onLayout
 onLayout方法一样也是在layout()方法中调用的，作用是控制子控件的布局。因此view的onLayout方法是空的,因为只有ViewGroup才有子控件。不过ViewGroup的onLayout方法也只是个抽象类，实现的地方还是在ViewGroup的子类中。
 ```java
 @Override
@@ -131,7 +131,7 @@ for (int i = 0; i < count; i++) {
 
 其余还有些padding和margin等balabala各种属性要考虑到其中就不赘述了。
 
-# 自定义Layout属性
+## 自定义Layout属性
 在学习写自定义Layout的时候，顺便练习了下自定义属性，主要以下几步
 * 新建attrs.xml,declare-styleable的name是自定义的布局名称，attr的name和format都自己定义
 ```xml
