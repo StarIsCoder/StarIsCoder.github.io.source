@@ -11,12 +11,12 @@ categories: Java
 ```java
 //写入文件
 ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("test.obj"));
-            objectOutputStream.writeObject(new Data(1));
-            objectOutputStream.close();
+objectOutputStream.writeObject(new Data(1));
+objectOutputStream.close();
 //读取文件
 ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("test.obj"));
-            Data data = (Data) objectInputStream.readObject();
-            System.out.println(data.i);
+Data data = (Data) objectInputStream.readObject();
+System.out.println(data);
 ```
 ## transient关键字
 如果某个类的属性不希望被序列化则可以加上transient关键字。
@@ -43,19 +43,19 @@ class Data implements Serializable {
     }
 }
 public static void main(String[] args) {
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("test.obj"));
-            objectOutputStream.writeObject(new Data(1));
-            objectOutputStream.close();
+    try {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("test.obj"));
+        objectOutputStream.writeObject(new Data(1));
+        objectOutputStream.close();
 
-            Data.i = 10;
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("test.obj"));
-            Data data = (Data) objectInputStream.readObject();
-            System.out.println(data);
+        Data.i = 10;
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("test.obj"));
+        Data data = (Data) objectInputStream.readObject();
+        System.out.println(data);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
 ```
 结果是10，原因是static是针对类的属性，而不是针对对象的属性。因为静态变量可以直接使用，所以序列化并不保存静态变量。
@@ -99,18 +99,18 @@ class Data implements Externalizable {
     }
 }
 public static void main(String[] args) {
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("test.obj"));
-            objectOutputStream.writeObject(new Data(1));
-            objectOutputStream.close();
+    try {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("test.obj"));
+        objectOutputStream.writeObject(new Data(1));
+        objectOutputStream.close();
 
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("test.obj"));
-            Data data = (Data) objectInputStream.readObject();
-            System.out.println(data);
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("test.obj"));
+        Data data = (Data) objectInputStream.readObject();
+        System.out.println(data);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
 ```
 ```
@@ -129,14 +129,14 @@ Data{n=0}
 ```java
 @Override
 public void writeExternal(ObjectOutput objectOutput) throws IOException {
-        System.out.println("writeExternal()");
-        objectOutput.writeInt(n);
+    System.out.println("writeExternal()");
+    objectOutput.writeInt(n);
 }
 
 @Override
 public void readExternal(ObjectInput objectInput) throws IOException, ClassNotFoundException {
-        System.out.println("readExternal()");
-        n = objectInput.readInt();
+    System.out.println("readExternal()");
+    n = objectInput.readInt();
 }
 ```
 ## Externalizable的替代方法
@@ -153,34 +153,34 @@ private void readObject(ObjectInputStream stream) {
 查看下源码就知道如果我们实现了这两个方法（虽然只是添加，就当他是实现吧），那么就不会走正常的序列化流程，而转为使用我们自己实现的。
 ```java
 void invokeWriteObject(Object var1, ObjectOutputStream var2) throws IOException, UnsupportedOperationException {
-        this.requireInitialized();
-        if (this.writeObjectMethod != null) {
-            try {
-                this.writeObjectMethod.invoke(var1, var2);
-            } catch (InvocationTargetException var5) {
-                Throwable var4 = var5.getTargetException();
-                if (var4 instanceof IOException) {
-                    throw (IOException)var4;
-                }
-
-                throwMiscException(var4);
-            } catch (IllegalAccessException var6) {
-                throw new InternalError(var6);
+    this.requireInitialized();
+    if (this.writeObjectMethod != null) {
+        try {
+            this.writeObjectMethod.invoke(var1, var2);
+        } catch (InvocationTargetException var5) {
+            Throwable var4 = var5.getTargetException();
+            if (var4 instanceof IOException) {
+                throw (IOException)var4;
             }
 
-        } else {
-            throw new UnsupportedOperationException();
+            throwMiscException(var4);
+        } catch (IllegalAccessException var6) {
+            throw new InternalError(var6);
         }
+
+    } else {
+        throw new UnsupportedOperationException();
+    }
 }
 ```
 如果我们自己实现的话实现方式和Externalizable一样
 ```java
 private void writeObject(ObjectOutputStream stream) throws IOException {
-        stream.writeInt(n);
+    stream.writeInt(n);
 }
 
     private void readObject(ObjectInputStream stream) throws IOException {
-        n = stream.readInt();
+    n = stream.readInt();
 }
 ```
 
