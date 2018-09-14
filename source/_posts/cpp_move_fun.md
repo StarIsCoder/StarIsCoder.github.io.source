@@ -7,7 +7,7 @@ categories: C++
 最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。
 首先google查看官方解释：
 
-_In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type._
+In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type.
 
 简单来说就是将一个值转化为右值。目的是为了提升效率，减少拷贝的数量。也就是进行深拷贝。
 ## 右值
