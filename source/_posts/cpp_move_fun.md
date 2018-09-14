@@ -6,15 +6,15 @@ categories: C++
 
 最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。
 首先google查看官方解释：
-```
-In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type.
-```
+
+_In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type._
+
 简单来说就是将一个值转化为右值。目的是为了提升效率，减少拷贝的数量。也就是进行深拷贝。
 ## 右值
 那么右值又是什么？还是查看微软的官方解释吧。
-```
-Every C++ expression is either an lvalue or an rvalue. An lvalue refers to an object that persists beyond a single expression. You can think of an lvalue as an object that has a name. All variables, including nonmodifiable (const) variables, are lvalues. An rvalue is a temporary value that does not persist beyond the expression that uses it. To better understand the difference between lvalues and rvalues, consider the following example:
-```
+
+_Every C++ expression is either an lvalue or an rvalue. An lvalue refers to an object that persists beyond a single expression. You can think of an lvalue as an object that has a name. All variables, including nonmodifiable (const) variables, are lvalues. An rvalue is a temporary value that does not persist beyond the expression that uses it._
+
 在c++中，表达式是要么左值要么右值，左值表示他对一个对象的应用远远超过了一个表达式（可以忽略），其实也可以**把左值看成一个有名字的对象**。所有的变量，常量都是左值。右值是一个临时变量，并不会比表达式保存的更久。
 
 这个左和右是相对于等于号的。等于号左边必然是一个变量，右边是一个表示式或者是一个临时变量。感觉还是不太好用语言来解释这玩意。贴一段官方的sample。
