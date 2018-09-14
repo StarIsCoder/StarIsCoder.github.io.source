@@ -1,6 +1,6 @@
 ---
-title: C++ Pointer Note
-date: 2018/8/7
+title: C++ move function
+date: 2018/9/14
 categories: C++
 ---
 
