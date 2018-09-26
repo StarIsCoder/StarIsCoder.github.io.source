@@ -1,6 +1,6 @@
 ---
 title: Java_Concurrent_AQS
-date: 2018/09/17
+date: 2018/09/26
 categories: Java
 ---
 
@@ -13,7 +13,7 @@ try {
     //add code you want to lock
     count++;    
 } finally {
-        lock.unlock();
+    lock.unlock();
 }
 ```
 ReentrantLock是一个能和synchronized实现同样功能的对象，只是在实现方面更为灵活一点，比如尝试获取锁，过一段时间放弃它。因此被lock住的线程是线程安全的。
@@ -166,3 +166,117 @@ protected boolean tryRelease(int arg) {
 这里LockSupport只是作为工具类，具体的逻辑还是要看queue中是怎么处理的。
 
 ### Queue
+通过源码查看到内部维护了一个Node的内部类，并且该Node既有prev又有next的成员变量，因此这是一个双向的链表。以acquire为例
+```java
+public final void acquire(int arg) {
+    if (!tryAcquire(arg) &&
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        selfInterrupt();
+}
+
+......
+
+private Node addWaiter(Node mode) {
+    Node node = new Node(Thread.currentThread(), mode);
+    Node pred = tail;
+    if (pred != null) {
+        node.prev = pred;
+        if (compareAndSetTail(pred, node)) {
+            pred.next = node;
+            return node;
+        }
+    }
+    enq(node);
+    return node;
+}
+```
+- tryAcquire->先尝试获取状态，由子类自己实现 
+- addWaiter->生成一个节点，并将节点放入队列中
+```java
+final boolean acquireQueued(final Node node, int arg) {
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head && tryAcquire(arg)) {
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return interrupted;
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+```
+- 使用自旋锁，并且如果前面一个是头节点了则不断去尝试获取状态。也就是说下一个就到这个线程，那么他就会一直去尝试获取，确保能最快获取到状态
+- shouldParkAfterFailedAcquire(p, node)->如果在该线程还有其他线程在等待，那么就判断是否需要挂起操作
+```java
+private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+    int ws = pred.waitStatus;
+    if (ws == Node.SIGNAL)
+        return true;
+    if (ws > 0) {
+        do {
+            node.prev = pred = pred.prev;
+        } while (pred.waitStatus > 0);
+        pred.next = node;
+    } else {
+           compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+    }
+    return false;
+}
+```
+- 只有当节点的线程状态为SIGNAL的时候，才需要进行挂起操作
+- ws>0表示前一个节点是canceled状态，因此就持续往前找，直到找个一个有效的节点，并将新生成的节点放在其后
+- 如果不是canceled状态，那么需要将其切为SIGNAL状态
+- 如果需要挂起那么就使用LockSupport.park将其挂起，等待unpark
+结合release来看
+```java
+public final boolean release(int arg) {
+    if (tryRelease(arg)) {
+        Node h = head;
+        if (h != null && h.waitStatus != 0)
+            unparkSuccessor(h);
+       return true;
+    }
+    return false;
+}
+```
+- tryRelease->同样的想用子类的去释放状态
+- 如果成功释放了，那么唤醒队列中的头节点
+```java
+private void unparkSuccessor(Node node) {
+    int ws = node.waitStatus;
+    if (ws < 0)
+        compareAndSetWaitStatus(node, ws, 0);
+
+    Node s = node.next;
+    if (s == null || s.waitStatus > 0) {
+        s = null;
+        for (Node t = tail; t != null && t != node; t = t.prev)
+            if (t.waitStatus <= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
+```
+- LockSupport.unpark(s.thread) -> 唤醒头节点的后续节点
+- 由于已经unpark了所以acquireQueued会继续执行，当、一旦头节点释放资源，后续节点则可以tryAcquire
+
+原则上来说该队列是FIFO原则，先来先到。
+
+比如在银行拿号，如果柜台有人了，那么你得排队
+- 前面就轮到你了，那么你尝试排个队，如果失败，那么你认定前面还在处理业务，就标记为SIGNAl，过了一会儿又看了下，o！是SIGNAL，那么我还是先休息下，也就是park操作。
+- 后面又来一个人，看到你在排队但不是SIGNAL，那么把你置为SIGNAL，然后再试一次，失败之后发现是SIGNAL，那么他就直接休息（park）了。
+- 如果看到前面的人不排了，也就是cancel状态，那么就一直往前找，直到找到一个确实在排队的人，排在他后面。如果前面一个人状态不太对但是也确实在排，那会把他标记成SIGNAL。
+
+
+具体还有很多细节问题没有深入，暂时只是知道一个大概。毕竟AQS是java锁机制的一个基础，还是需要多看几遍才行。
