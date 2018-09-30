@@ -83,3 +83,23 @@ gClient->getSpeakerVolume([](int volume){
     });
 ```
 相当来说lamda表达式更简单一点。不过如果是多次回调还是应该用接口的方式，接口的方式在层次上也更分明。
+
+lamda表达式是这样定义的
+```
+[ capture clause ] (parameters) -> return-type  
+{   
+   definition of method   
+} 
+```
+
+其中parameters和return-type可以省略。关于这两者和函数具体实现没什么好多说的，第一次知道还有捕获列表这样的东西。
+
+
+捕获列表就是用[]包起来的列表，可以传引用、指针、变量的拷贝，不过无法传递右值。通俗来说就是被这个捕获列表包起来的参数可以在lamda表达式中使用。
+```c++
+int j = 5;
+auto f = []{
+    j = 1; //invalid,Variable 'j' cannot be implicitly captured in a lambda with no capture-default specified
+};
+```
+如果不在捕获列表中添加j的话是无法访问的。可以理解为用非传统的方式把变量作为参数传递进入函数。
