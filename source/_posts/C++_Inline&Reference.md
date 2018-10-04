@@ -1,5 +1,5 @@
 ---
-title: C++ 深入函数
+title: inline&reference
 date: 2018/8/24
 categories: C++
 ---

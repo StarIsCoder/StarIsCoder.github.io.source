@@ -1,5 +1,5 @@
 ---
-title: Java_Volatile
+title: Volatile
 date: 2018/9/27
 categories: Java
 ---

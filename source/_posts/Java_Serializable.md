@@ -1,5 +1,5 @@
 ---
-title: Java_Serializable
+title: Serializable
 date: 2018/9/8
 categories: Java
 ---

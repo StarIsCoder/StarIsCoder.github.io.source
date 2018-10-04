@@ -1,5 +1,5 @@
 ---
-title: C++指针笔记
+title: Pointer Note
 date: 2018/8/7
 categories: C++
 ---

@@ -1,5 +1,5 @@
 ---
-title: C++ Callback
+title: Basic Callback
 date: 2018/9/21
 categories: C++
 ---

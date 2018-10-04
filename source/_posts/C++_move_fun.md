@@ -1,5 +1,5 @@
 ---
-title: C++ move function
+title: std move
 date: 2018/9/14
 categories: C++
 ---

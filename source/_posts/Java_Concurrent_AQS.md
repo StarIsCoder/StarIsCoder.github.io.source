@@ -1,5 +1,5 @@
 ---
-title: Java_Concurrent_AQS
+title: Concurrent AQS
 date: 2018/09/26
 categories: Java
 ---

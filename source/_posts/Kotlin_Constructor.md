@@ -1,5 +1,5 @@
 ---
-title: Kotlin Constructor
+title: Constructor
 date: 2018/9/7
 categories: Kotlin
 ---

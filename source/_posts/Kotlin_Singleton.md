@@ -1,5 +1,5 @@
 ---
-title: Kotlin Singleton
+title: Singleton
 date: 2018/8/10
 categories: Kotlin
 ---
