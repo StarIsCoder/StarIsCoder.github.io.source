@@ -22,6 +22,23 @@ Runnable runnable = () -> {
     System.out.println(str);
 };
 ```
+## Predicate接口
+该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。
+```java
+public interface Predicate<T> {
+
+    boolean test(T t);
+    .......
+}
+```
+例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。
+```java
+Predicate<Integer> predicate = integer -> {
+    return integer % 2 == 0;
+};
+
+predicate.negate();// 过滤出所有的奇数
+```
 
 ## 总结
 - Lamda表达式是一个匿名的方法，将行为像数据一样传递。
