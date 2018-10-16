@@ -1,5 +1,5 @@
 ---
-title: JVM中的内存和对象
+title: JVM中的内存与对象
 date: 2018/10/16
 categories: Java
 ---
