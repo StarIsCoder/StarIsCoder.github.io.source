@@ -26,7 +26,7 @@ CLass结构：
 ### 常量池
 常量池：常量池可以理解为class文件中的资源仓库，它是class文件结构中与其他项目关联最多的数据类型。
 
-由于一个类中有多少方法和变量是不确定的，因此常量池入口有一项u2类型的数据，代表常量池容量计数值。不过这个容量计数是从1开始的。也就是说如果这个值是57，那么就有56个常量，之所以把0空出来是因为如果某个常量的索引不引用任何一个常量就可以用0来表示。图中的容量计数值为55，因此一共有54个常量。
+由于一个类中有多少方法和变量是不确定的，因此常量池入口有一项u2类型的数据，代表常量池容量计数值。不过这个容量计数是从1开始的。也就是说如果这个值是57，那么就有56个常量，之所以把0空出来是因为如果某个常量的索引不引用任何一个常量就可以用0来表示。图中的容量计数值为59，因此一共有58个常量。
 
 ![](/assets/Java_ClassFileDetail/Class_NumberOfConstant.jpg)
 
@@ -43,11 +43,11 @@ CLass结构：
 
 查看下第一个常量是0A，也就是10，10对应常量池中的项目类型是CONSTANT_Methodref_info，而这个类型一共有三个参数，第一个是tag，也就是10，第二个和第三个都是u2类型，如图中是0E（14）和1B（27），分别表示指向声明方法和指向名称的索引。
 
-![](/assets/Java_ClassFileDetail/FirstElement.png)
+![](/assets/Java_ClassFileDetail/FirstElement.jpg)
 
-可以使用javap反编译来确认下。一共有54项。并且第一个常量是这样的，和用hex friend计算出来是一样的。
+可以使用javap反编译来确认下。第一个常量是这样的，和用hex friend计算出来是一样的。
 ```
  #1 = Methodref          #14.#27 
 ```
 
-![](/assets/Java_ClassFileDetail/javapResult.png)
+![](/assets/Java_ClassFileDetail/javapResult.jpg)
