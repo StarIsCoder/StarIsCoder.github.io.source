@@ -51,3 +51,34 @@ CLass结构：
 ```
 
 ![](/assets/Java_ClassFileDetail/javapResult.jpg)
+
+### 访问标志
+常量池之后是access_flags，这个标志用于识别一些类或者接口层次的访问信息，例如这个class是类还是接口，是public还是abstract等等。使用javap也可以看到标志。
+```
+flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+```
+
+### 类索引、父类索引、接口索引集合
+类索引和父类索引都是一个u2类型的数据，而接口索引集合是一组u2类型的数据。Class文件中由这三项来确定继承关系。
+
+类索引和父类索引各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过这个类描述符常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。
+
+例如图中this_class的索引是13，而13的索引又指向了55，55则代表这个类名。
+
+![](/assets/Java_ClassFileDetail/this_class.jpg)
+
+![](/assets/Java_ClassFileDetail/this_class2.jpg)
+
+### 字段表集合
+field_info用于描述接口或者类中声明的变量。字段包括类级变量以及实例级变量，不包括方法中的临时变量。
+
+字段表的结构用access_flags来表示作用域、是否final、是否static等等，另外用了两个索引来表示这个变量的名称和类型（有映射的字符，例如int对应I）。另外还有两个字段存储额外的信息，如果我们给一个变量赋了初始值，那么这两个字段就会有对应的值。
+
+### 方法表集合
+类似于字段表集合，由于方法没有volatile和transient关键字，因此access_flags中没有ACC_VOLATILE标志和ACC_TRANSIENT标志。而增加了synchronized、native等修饰方法的关键字。由于和字段表集合大同小异，不多赘述。
+
+但是需要注意的是方法中的代码被单独存放在了方法表中的code字段下，可以看到下图是用javap反编译出的main方法。access_flags是ACC_PUBLIC和ACC_STATIC，descriptor表示传入的参数和返回值。code字段下是方法中的代码。
+
+![](/assets/Java_ClassFileDetail/javap_method.jpg)
+
+
