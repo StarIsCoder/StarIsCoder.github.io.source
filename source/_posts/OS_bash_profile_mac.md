@@ -1,5 +1,5 @@
 ---
-title: 脚本
+title: script
 date: 2018/11/15
 categories: OS
 ---
