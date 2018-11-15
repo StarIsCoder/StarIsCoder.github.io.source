@@ -1,5 +1,5 @@
 ---
-title: bash_profile
+title: 脚本
 date: 2018/11/15
 categories: OS
 ---
