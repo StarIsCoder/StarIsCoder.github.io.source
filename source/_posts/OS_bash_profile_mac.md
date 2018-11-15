@@ -1,5 +1,5 @@
 ---
-title: bash_profile in Mac
+title: bash_profile in macOS
 date: 2018/11/15
 categories: OS
 ---
