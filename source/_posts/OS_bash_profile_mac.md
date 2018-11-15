@@ -1,5 +1,5 @@
 ---
-title: bash_profile for mac
+title: bash_profile
 date: 2018/11/15
 categories: OS
 ---
@@ -25,7 +25,7 @@ fi
 File /etc/profile
 
 # System-wide .profile for sh(1)
-  
+
 if [ -x /usr/libexec/path_helper ]; then
         eval `/usr/libexec/path_helper -s`
 fi
