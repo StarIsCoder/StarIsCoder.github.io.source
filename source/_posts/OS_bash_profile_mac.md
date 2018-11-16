@@ -1,5 +1,5 @@
 ---
-title: script
+title: bash_profile for mac
 date: 2018/11/15
 categories: OS
 ---
