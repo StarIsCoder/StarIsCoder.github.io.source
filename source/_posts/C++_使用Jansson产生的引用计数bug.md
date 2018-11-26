@@ -58,4 +58,25 @@ json_t *ProximityRequestBodyBuilder::wrapper(json_t *parameterJson, const std::s
 
 但是在调用了`json_decref(requestJson)`之后，`methodParaJson`的引用计数也-1，那么之后再调用`json_decref(methodParaJson)`，就出现了各种问题。
 
-至于两者为什么会有耦合关系，是因为用`requestJson`将`methodParaJson`包装了一次。不过这边既然他自动给我-1，那讲道理在包装的时候应该也自动+1比较合理。关于这点已经提了issue：https://github.com/akheron/jansson/issues/449
+至于两者为什么会有耦合关系，是因为用`requestJson`将`methodParaJson`包装了一次。不过这边既然他自动给我-1，那讲道理在包装的时候应该也自动+1比较合理。
+
+后来check了一下源码才发现不应该用`json_object_set_new`,而应该用`json_object_set`。因为`json_object_set`才是真正+1的地方，而`json_object_set_new`并没有+1，其实感觉new这个关键字有一点误导人。
+```c
+int json_object_set(json_t *object, const char *key, json_t *value)
+{
+    return json_object_set_new(object, key, json_incref(value));
+}
+
+int json_object_set_new(json_t *json, const char *key, json_t *value)
+{
+    if(!key || !utf8_check_string(key, strlen(key)))
+    {
+        json_decref(value);
+        return -1;
+    }
+
+    return json_object_set_new_nocheck(json, key, value);
+}
+```
+
+关于这点已经提了issue：https://github.com/akheron/jansson/issues/449
