@@ -37,3 +37,18 @@ integerList.stream()
 **判断惰性和及早只需要看返回值，如果返回值是stream，那么就是惰性，否则则是及早。**
 
 大致知道一些常用的，例如map（映射成别的值），filter（过滤），collect（生成新的列表）等等。尽量以后在敲代码的时候多用Lamda表达式，一是为了练习，二是Lamda表达式确实看起来舒服很多。
+
+## 使用stream排序
+使用stream方法中的sorted方法可以给一个stream排序，也可以自定义，默认升序。
+```java
+list.stream().sorted() 
+
+list.stream().sorted(Comparator.reverseOrder()) 
+
+list.stream().sorted(Comparator.comparing(Student::getAge)) 
+
+list.stream().sorted(Comparator.comparing(Student::getAge).reversed()) 
+
+//最后需要将排序完的结果转化成list
+list.stream().sorted().collect(Collectors.toList());
+```
