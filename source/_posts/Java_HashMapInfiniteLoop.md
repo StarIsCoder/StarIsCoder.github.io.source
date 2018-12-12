@@ -94,6 +94,8 @@ final Node<K,V>[] resize() {
 }
 ```
 
+![](/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-5.png)
+
 旧数组中index为0的链表结构为 `90 -> 1 -> null`，假设新数组的index依旧为0。
 
 首先线程1执行，准备插入第13个键值对，这时候需要扩容，就会调用resize方法，当执行完了第一行代码`next = e.next;`，这时候线程2开始执行。
@@ -101,5 +103,7 @@ final Node<K,V>[] resize() {
 线程2全部执行完之后，新数组中index为0的链表结构为 `1 -> 90 -> null`。
 
 这时候1继续执行，90移到新数组，1从队头插入，新index 0变成了`1 -> 90`，然而由于线程2将1的next赋值为90，（正常情况1的next是null），然后1的next也就是90继续移动到新数组，同样的插入队头，这时的新index 0的数据结构变成了`90(由线程2设置的) -> 1 -> 90`。
+
+![](/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png)
 
 那么其实变相等于90的next指向1，1的next指向90，如果这时候再来对index为0的链表进行put操作就会陷入无限循环中。
