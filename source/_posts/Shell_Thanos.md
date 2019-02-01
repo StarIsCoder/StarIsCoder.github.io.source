@@ -1,5 +1,5 @@
 ---
-title: 随机删除一半文件
+title: Delete half of files randomly
 date: 2019/02/01
 categories: Shell
 ---
