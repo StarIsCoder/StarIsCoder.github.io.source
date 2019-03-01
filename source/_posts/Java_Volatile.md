@@ -4,7 +4,7 @@ date: 2018/9/27
 categories: Java
 ---
 ## 原子性
-原子性操作是指不能被线程调度机制中断的操作，一旦操作开始，在可能发生的上下文切换之前执行完。
+原子性操作是指不能被线程调度机制中断的操作，一旦操作开始，在可能发生的上下文切换之前执行完。
 
 java中对除了long和double以外的基本类型进行读写操作都是原子性的，因为long和double是64位的，JVM有可能将其分为两个32位的。不过新的jdk也实现了long和double的原子读写。
 
@@ -80,11 +80,11 @@ int ret = a * a;//4
 以下是happens-before的几种规矩
 1. 一个线程内的action
 ```
-state 1     ------
-state 2			  |
-state 3 		  | - All states happen before state n
-				  |
-...		    ------
+state 1
+state 2	
+state 3     // All states happen before state n
+
+...
 
 state n
 ```
