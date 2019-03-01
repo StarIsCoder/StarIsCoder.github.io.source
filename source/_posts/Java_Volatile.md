@@ -74,7 +74,7 @@ int ret = a * a;//4
 
 优先选择一定是sychronized，除非只有一个变量，否则都不应该只使用volatile，他并不能保证并发的冲突不发生。同样的也不能改变自加不是原子性的本质。
 
-### happens-before
+## happens-before
 说到重排序，插播一段happens-before原则，这个原则是为了保证线程A所执行的action对其他线程执行的action是可见的。如果没有这个原则，那么JVM就会随心所欲的修改action执行的顺序。
 
 以下是happens-before的几种规矩
