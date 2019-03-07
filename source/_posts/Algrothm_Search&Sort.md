@@ -110,3 +110,92 @@ public void sort(int input[], int low, int high) {
     sort(input, low, start - 1);
 }
 ```
+
+## 冒泡排序
+冒泡排序的基本思想就是两两比较，小的往左，大的往右。
+
+代码中的内层循环减去i的原因是每一轮排序结束之后都会把最大的移到最右边。`swapped`的作用是如果已经排序ok了则不需要再循环。
+```
+public void bubbleSort(int array[]) {
+    for (int i = 0; i < array.length - 1; i++) {
+        boolean swapped = false;
+        for (int j = 0; j < array.length - i - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                int tmp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = tmp;
+                swapped = true;
+            }
+        }
+        if (!swapped) {
+            break;
+        }
+    }
+}
+```
+
+## 选择排序
+选择排序的主要思路是从数组中找出最小的一个数放在新的数组第一个，对剩下的数组作同样处理。
+```java
+public void selectionSort(int array[]) {
+    for (int i = 0; i < array.length; i++) {
+        int min_index = i;
+        for (int j = i; j < array.length; j++) {
+        if (array[j] < array[min_index]) {
+            min_index = j;
+        }
+    }
+    int tmp = array[min_index];
+    array[min_index] = array[i];
+    array[i] = tmp;
+    }
+}
+```
+## 合并排序
+合并排序是先将数组拆分然后挨个合并
+![](/assets/Algorith_SearchAndSort/merge_sort.jpg)
+```java
+ public void merge(int arr[], int l, int m, int r) {
+    int tmp[] = new int[r - l + 1];
+    int i = l;
+    int j = m + 1;
+    int k = 0;
+
+    while (i <= m && j <= r) {
+        if (arr[i] <= arr[j]) {
+            tmp[k] = arr[i];
+            i++;
+        } else {
+            tmp[k] = arr[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i <= m) {
+        tmp[k] = arr[i];
+        i++;
+        k++;
+    }
+
+    while (j <= r) {
+        tmp[k] = arr[j];
+        j++;
+        k++;
+    }
+        
+    for (i = l; i <= r; i++) {
+        arr[i] = tmp[i - l];
+    }
+}
+
+public void sort(int arr[], int l, int r) {
+    if (l < r) {
+        int m = (l + r) / 2;
+
+        sort(arr, l, m);
+        sort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
+```
