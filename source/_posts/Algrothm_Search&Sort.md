@@ -6,6 +6,11 @@ categories: Algorithm
 
 ## 二分法
 二分查找有两种，递归和循环。
+
+时间复杂度：
+
+- O(Logn)
+
 ```java
  private int binarySearchIteration(int input[], int target) {
         int l = 0;
@@ -42,6 +47,10 @@ categories: Algorithm
 ```
 ## 快速排序
 快速排序主要的思想是分而治之，先选取一个基准数，第一次排序的时候将比基准数小的全部移到左边，而比基准数大的全部移到右边。这样就分成了两个数组，然后递归排序即可。
+
+时间复杂度：
+- Worst: O(n^2)
+- Best: O(nLogn)
 
 下面这种以最后一个值作为基准值。假设原数组为`10, 7, 8, 9, 1, 5`
 
@@ -114,6 +123,11 @@ public void sort(int input[], int low, int high) {
 ## 冒泡排序
 冒泡排序的基本思想就是两两比较，小的往左，大的往右。
 
+时间复杂度:
+- Best: n
+- Worst: n^2
+- Average: n^2
+
 代码中的内层循环减去i的原因是每一轮排序结束之后都会把最大的移到最右边。`swapped`的作用是如果已经排序ok了则不需要再循环。
 ```
 public void bubbleSort(int array[]) {
@@ -136,23 +150,35 @@ public void bubbleSort(int array[]) {
 
 ## 选择排序
 选择排序的主要思路是从数组中找出最小的一个数放在新的数组第一个，对剩下的数组作同样处理。
+
+时间复杂度:
+- Best: n^2
+- Worst: n^2
+- Average: n^2
+
 ```java
 public void selectionSort(int array[]) {
     for (int i = 0; i < array.length; i++) {
         int min_index = i;
         for (int j = i; j < array.length; j++) {
-        if (array[j] < array[min_index]) {
-            min_index = j;
-        }
-    }
-    int tmp = array[min_index];
-    array[min_index] = array[i];
-    array[i] = tmp;
+        	if (array[j] < array[min_index]) {
+            	min_index = j;
+        	}
+    	}
+    	int tmp = array[min_index];
+    	array[min_index] = array[i];
+    	array[i] = tmp;
     }
 }
 ```
 ## 合并排序
-合并排序是先将数组拆分然后挨个合并
+合并排序是先将数组拆分然后挨个合并。
+
+时间复杂度:
+- Best: n*Log(n)
+- Worst: n*Log(n)
+- Average: n*Log(n)
+
 ![](/assets/Algorith_SearchAndSort/merge_sort.jpg)
 ```java
  public void merge(int arr[], int l, int m, int r) {
@@ -199,3 +225,28 @@ public void sort(int arr[], int l, int r) {
     }
 }
 ```
+
+## 插入排序
+选择排序的思想是假设第0个元素为一张扑克牌，之后将数组中剩余的元素挨个交到你手中并放入牌堆中。
+
+比如有个数组为`12,11,13,5,6` ，12是牌堆原有的，从索引1开始拿到了11，将其插入12之前，继续拿到索引2 - 13，放在11、12之后，之后都这样处理。
+
+时间复杂度：
+- Best: O(n^2)
+- Worst: O(n)
+```java
+public void selectionSort(int array[]) {
+    for (int i = 0; i < array.length; i++) {
+        int min_index = i;
+        for (int j = i; j < array.length; j++) {
+            if (array[j] < array[min_index]) {
+                min_index = j;
+            }
+        }
+        int tmp = array[min_index];
+        array[min_index] = array[i];
+        array[i] = tmp;
+    }
+}
+```
+
