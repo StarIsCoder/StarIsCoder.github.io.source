@@ -121,7 +121,7 @@ System.out.println(i);
 ```
 原因在于并行化了之后每个元素都执行了reduce(5, (acc, element) -> acc * element)。
 
-原来是5 * 1 * 2 * 3 * 4，并行化后变成了5 * (5 * 1) * (5 * 2) * (5 * 3) * (5 * 4)。
+原来是`5 * 1 * 2 * 3 * 4`，并行化后变成了`5 * (5 * 1) * (5 * 2) * (5 * 3) * (5 * 4)`。
 正确的应该是
 ```java
 int i = integerList.stream().parallel().reduce(1, (acc, element) -> acc * element) * 5;
