@@ -1,5 +1,5 @@
 ---
-title: Lamda表达式-Preview
+title: Lamda表达式
 date: 2018/10/04
 categories: Java
 ---
