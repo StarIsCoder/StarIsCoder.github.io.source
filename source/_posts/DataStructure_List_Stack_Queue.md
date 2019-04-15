@@ -6,11 +6,11 @@ categories: DataStructure
 
 ### 表
 #### 数组实现
-数组的get操作话费常数时间，不过插入和删除却有可能有巨大开销。因为最坏的情况下，在位置0的插入将会把之后所有的元素后移一位。而删除第一个元素将把之后所有的元素前移一位。相反如果删除和插入都在表的高端，那么则开销没有那么大。
+数组的get操作花费常数时间，不过插入和删除却有可能有巨大开销。因为最坏的情况下，在位置0的插入将会把之后所有的元素后移一位。而删除第一个元素将把之后所有的元素前移一位。相反如果删除和插入都在表的高端，开销则没有那么大。
 
-Java中用数组实现的列表为ArrayList，对get和set的调用花费常数时间，但插入和删除开销较大除非是在末端进行。
+Java中用数组实现的列表为ArrayList，对get和set的调用花费常数时间，但插入和删除开销较大，除非是在末端进行。
 
-以下为自己用数组实现的List，用个`mCount`表示list中的元素个数。
+以下为自己用数组实现的List，用`mCount`表示list中的元素个数。
 ```java
 //扩展数组
 public void expandArray() {
@@ -71,7 +71,10 @@ class MyArrayListIterator<T> implements Iterator<T> {
 }
 ```
 
+<https://github.com/StarIsCoder/DataStructure-BasicAlgorithm/blob/master/src/base/datastructure/MyArrayList.java>
+
 #### 链表实现
+
 使用链表查找开销较大，因为需要遍历整个list，但是对于删除和插入只需要操作某一个节点的`next`即可（需要知道该节点的位置），由于对第一项和最后一项的操作属于特殊操作，因此一般都会新增头节点和尾节点（也就是说一个空的list有两个节点），在Java的LinkedList中有`addFirst`、`addLast`等api。
 
 以下为简单实现，用`mSize`表示元素个数:
@@ -175,6 +178,8 @@ public class MyLinkedList<T> implements Iterable<T> {
 
 
 
+<https://github.com/StarIsCoder/DataStructure-BasicAlgorithm/blob/master/src/base/datastructure/MyLinkedList.java>
+
 ### 栈
 
 栈是限制插入和删除只能在一个位置上进行的表，特点是LIFO，一般只有push和pop操作，至于栈的实现用数组和链表都可以实现:
@@ -216,6 +221,10 @@ public V pop() {
 
 栈的应用，例如括号匹配，JVM中的栈帧，现代计算机的指令。
 
+<https://github.com/StarIsCoder/DataStructure-BasicAlgorithm/blob/master/src/base/datastructure/MyArrayStack.java>
+
+<https://github.com/StarIsCoder/DataStructure-BasicAlgorithm/blob/master/src/base/datastructure/MyLinkedStack.java>
+
 ### 队列
 队列和栈有点类似，不过是FIFO，主要操作有enqueue和dequeue，也可以用数组或者链表来实现，以下为数组实现：
 ```java
@@ -241,3 +250,5 @@ public T dequeue() {
                f   e
 ```
 队列的应用比如有Android中的MessageQueue等等。
+
+<https://github.com/StarIsCoder/DataStructure-BasicAlgorithm/blob/master/src/base/datastructure/MyArrayQueue.java>
