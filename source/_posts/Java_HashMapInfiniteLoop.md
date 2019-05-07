@@ -1,4 +1,3 @@
-
 ---
 title: HashMap Infinite Loop
 date: 2018/12/7
@@ -107,3 +106,9 @@ final Node<K,V>[] resize() {
 ![](/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png)
 
 那么其实变相等于90的next指向1，1的next指向90，如果这时候再来对index为0的链表进行put操作就会陷入无限循环中。
+
+
+
+
+
+参考文章：<http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html>
