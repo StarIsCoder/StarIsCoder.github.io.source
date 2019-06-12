@@ -147,6 +147,8 @@ jstring name = (jstring)env->GetObjectField(user , name_id);
 
 如果是int类型的参数可以直接用`env->GetIntField(user, id)`。
 
+### 枚举
+
 如果是枚举类型则稍微复杂一点。枚举类型都有个方法`ordinal`是返回枚举值。
 
 ```java
@@ -174,6 +176,55 @@ jclass vsTypeClass = env->GetObjectClass(vsTypeJni_);
 jmethodID ordinal = env->GetMethodID(vsTypeClass, "ordinal", "()I");
 jint vsTypeJint = env->CallIntMethod(vsTypeJni_, ordinal);
 ```
+
+如果想返回枚举的话则需要先用Java枚举的`values`方法获取到所有存储枚举类型的数组，然后根据index得到对应的Java枚举类型。
+
+```c++
+inline jobject GetEnumObjectRingerType(RingerType type) {
+
+    jobject result = nullptr;
+
+    bool bAttached = false;
+    JNIEnv *env = JniBase::AttachEnv(JniBase::ms_jvm, bAttached);
+
+    if (env) {
+
+        jclass enumClass = JniBase::FindClass(env,
+                                                  "com/webex/scf/RingerType");
+        jmethodID methodId = env->GetStaticMethodID(enumClass, "values",
+                                                        ("()[Lcom/webex/scf/RingerType;"));
+        jobjectArray valueArray = static_cast<jobjectArray>(env->CallStaticObjectMethod(
+                    enumClass, methodId));
+        int index = GetEnumRingerTypeAtIndex(type);
+        result = env->GetObjectArrayElement(valueArray, index);
+
+        env->DeleteLocalRef(valueArray);
+        env->DeleteLocalRef(enumClass);
+    }
+
+    JniBase::DetachEnv(JniBase::ms_jvm, bAttached);
+
+    return result;
+}
+
+inline int GetEnumRingerTypeAtIndex(RingerType type) {
+    int result = 0;
+    switch (type) {
+        case RingerType::Outgoing:
+            result = 1;
+            break;
+        case RingerType::BusyTone:
+            result = 2;
+            break;
+        case RingerType::Reconnect:
+            result = 3;
+            break;
+    }
+    return result;
+}
+```
+
+
 
 ## 调用Java方法
 

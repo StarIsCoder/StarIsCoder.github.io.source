@@ -129,6 +129,59 @@ public final class Test {
 
 _Warning:一个类中只能有一个被companion修饰的object。_
 
+## 带参数的单例
+
+Android中经常需要传递context，如果一个单例需要context作为参数的话用object是不行的，因为object不允许传递参数。因此可以借鉴Android中的`LocalBroadcastManager.getInstance(this).sendBroadcast(intent)`
+
+```kotlin
+companion object {
+    private var INSTANCE: RingerManager? = null
+    fun getInstance(context: Context): RingerManager {
+        if (INSTANCE == null) {
+            INSTANCE = RingerManager(context)
+        }
+        return INSTANCE!!
+    }
+}
+```
+
+## 模板单例
+
+在这个模板单例中还用到了`synchronized`来保证线程安全。 
+
+```kotlin
+open class SingletonHolder<out T: Any, in A>(creator: (A) -> T) {
+    private var creator: ((A) -> T)? = creator
+    @Volatile private var instance: T? = null
+
+    fun getInstance(arg: A): T {
+        val i = instance
+        if (i != null) {
+            return i
+        }
+
+        return synchronized(this) {
+            val i2 = instance
+            if (i2 != null) {
+                i2
+            } else {
+                val created = creator!!(arg)
+                instance = created
+                creator = null
+                created
+            }
+        }
+    }
+}
+```
+
+用了模板之后不用每个单例都写一个类似的代码，可以复用。
+
+```kotlin
+companion object : SingletonHolder<CoreFramework>(::CoreFramework)
+CoreFramework.getInstance()
+```
+
 参考文档：
 
 https://antonioleiva.com/objects-kotlin/
@@ -137,5 +190,5 @@ https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63
 
 https://www.journaldev.com/18662/kotlin-singleton-companion-object
 
-
+https://medium.com/@BladeCoder/kotlin-singletons-with-argument-194ef06edd9e
 
