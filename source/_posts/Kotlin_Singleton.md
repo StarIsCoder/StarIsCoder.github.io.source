@@ -178,8 +178,8 @@ open class SingletonHolder<out T: Any, in A>(creator: (A) -> T) {
 用了模板之后不用每个单例都写一个类似的代码，可以复用。
 
 ```kotlin
-companion object : SingletonHolder<CoreFramework>(::CoreFramework)
-CoreFramework.getInstance()
+companion object : SingletonHolder<CoreFramework, Context>(::CoreFramework)
+CoreFramework.getInstance(context).doStuff()
 ```
 
 参考文档：
