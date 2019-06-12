@@ -190,9 +190,9 @@ inline jobject GetEnumObjectRingerType(RingerType type) {
     if (env) {
 
         jclass enumClass = JniBase::FindClass(env,
-                                                  "com/webex/scf/RingerType");
+                                                  "com/star/RingerType");
         jmethodID methodId = env->GetStaticMethodID(enumClass, "values",
-                                                        ("()[Lcom/webex/scf/RingerType;"));
+                                                        ("()[Lcom/star/RingerType;"));
         jobjectArray valueArray = static_cast<jobjectArray>(env->CallStaticObjectMethod(
                     enumClass, methodId));
         int index = GetEnumRingerTypeAtIndex(type);
