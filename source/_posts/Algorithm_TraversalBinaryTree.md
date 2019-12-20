@@ -42,3 +42,95 @@ private static void printInorder(List list, TreeNode node) {
     printInorder(list, node.right);
 }
 ```
+
+除了递归能遍历二叉树以外，我们还可以用stack来实现二叉树的遍历
+
+```java
+public static void visitWithStackPreorder(TreeNode root) {
+    Stack<TreeNode> stack = new Stack<>();
+    stack.push(root);
+    while (!stack.empty()) {
+        TreeNode tmp = stack.pop();
+        System.out.println(tmp.val);
+        if (tmp.right != null) {
+            stack.push(tmp.right);
+        }
+        if (tmp.left != null) {
+            stack.push(tmp.left);
+        }
+
+    }
+}
+
+public static void visitWithStackInorder(TreeNode root) {
+    Stack<TreeNode> stack = new Stack<>();
+    stack.push(root);
+    TreeNode tmp = stack.pop();
+    while (!stack.empty() || tmp != null) {
+        while (tmp != null) {
+            stack.push(tmp);
+            tmp = tmp.left;
+        }
+        tmp = stack.pop();
+        System.out.println(tmp.val);
+        tmp = tmp.right;
+    }
+}
+
+public static void visitTreeWithStackPostorder(TreeNode root) {
+    Stack<TreeNode> stack = new Stack<>();
+    TreeNode cur;
+    cur = root;
+    while (cur != null || !stack.empty()) {
+        if (cur != null) {
+            stack.push(cur);
+            cur = cur.left;
+        } else {
+            TreeNode tmp = stack.peek().right;
+            //检查右边是否还有节点
+            if (tmp == null) {
+                tmp = stack.pop();
+                System.out.println(tmp.val);
+                while (!stack.empty() && tmp == stack.peek().right) {
+                    tmp = stack.pop();
+                    System.out.println(tmp.val);
+                }
+            } else {
+                cur = tmp;
+            }
+        }
+    }
+}
+```
+
+除了stack还有一种叫Morris Traversal的遍历方式，这种方法连stack都不需要
+
+```java
+public static void morrisPreorderTraverse(TreeNode root) {
+    TreeNode cur = root;
+    while (cur != null) {
+        if (cur.left == null) {
+            System.out.println(cur.val);
+            cur = cur.right;
+        } else {
+            TreeNode pre = cur.left;
+            while (pre.right != null && pre.right != cur) {
+                pre = pre.right;
+            }
+
+            if (pre.right == cur) {
+                pre.right = null;
+                cur = cur.right;
+            } else {
+                pre.right = cur;
+                System.out.println(cur.val);
+                cur = cur.left;
+            }
+        }
+    }
+}
+```
+
+
+
+参考文章：http://www.learn4master.com/algorithms/morris-traversal-inorder-tree-traversal-without-recursion-and-without-stack
